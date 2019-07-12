@@ -94,6 +94,13 @@ fn main() {
         lambda(&a);
         a.push_str("aaa");
         lambda(&a);
+    /*
+        let printLambda = |arg: std::fmt::Display|
+        {
+            println!("{}", arg);
+        };
+        printLambda(10);
+        printLambda("aaaa");*/
     }
 
     println!("closure call_once trait");
@@ -107,5 +114,12 @@ fn main() {
     let c2 = closure::Closure2{i: x};
     for i in 0..4 {
         println!("{}", c2(i));
+    }
+
+    {
+        let cat = neko::returnNekoOrCat(true);
+        cat.Die();
+        let dog = neko::returnNekoOrCat(false);
+        dog.Die();
     }
 }
