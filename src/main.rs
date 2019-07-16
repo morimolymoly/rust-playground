@@ -1,10 +1,12 @@
 #![feature(unboxed_closures)]
 #![feature(fn_traits)]
+#![feature(type_ascription)]
 
 mod closure;
 mod ownership;
 mod neko;
 use neko::Animal;
+mod option;
 
 fn main() {
     println!("Hello, world!");
@@ -121,5 +123,42 @@ fn main() {
         cat.Die();
         let dog = neko::returnNekoOrCat(false);
         dog.Die();
+    }
+
+    {
+        println!("unwrap option Some(10) = {}", option::UnwrapOption(Some(10)));
+        println!("unrap option None = {}", option::UnwrapOption(None));
+        let re: u64  = Some(10).unwrap();
+        println!("{}", re)
+    }
+
+    {
+        let lam = |x: u64| x + 10;
+        println!("lambda {}", lam(10));
+
+        let num: u64 = 100;
+        let closure = move |x: u64| x + num;
+        println!("closure {}", closure(10));
+        println!("num {}", num);
+
+        struct Point<X, Y> {
+            x: X,
+            y: Y
+        }
+        let p1 = Point {
+            x: 10: u64,
+            y: 20: u64,
+        };
+
+        let closure_point_plus = |p: &Point<u64, u64>| p.x + p.y;
+        println!("closure point plus {}", closure_point_plus(&p1));
+        println!("p1.x {}", p1.x);
+        let closure_point_plus_move = move |p2: &Point<u64, u64>| p2.x + p1.x;
+        let p2 = Point{
+            x: 100,
+            y: 200,
+        };
+        println!("closure p1.x + p2.x {}", closure_point_plus_move(&p2));
+        //println!("p1.x {}", p1.x);
     }
 }
